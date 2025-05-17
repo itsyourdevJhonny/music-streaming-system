@@ -1,0 +1,143 @@
+.library-card-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.library-card-container > div {
+    cursor: pointer;
+}
+
+vaadin-app-layout {
+    width: 100%;
+}
+
+.library-new-release-text {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    width: 100% !important;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+    font-family: cursive;
+}
+
+.library-header-layout {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.library-header-layout vaadin-integer-field::part(label) {
+    font-size: 13px;
+}
+
+.library-header-layout vaadin-integer-field::part(label),
+.library-header-layout vaadin-text-field::part(label),
+.library-header-layout vaadin-combo-box::part(label),
+.library-header-layout vaadin-date-picker::part(label) {
+    color: white;
+}
+
+.library-header-layout vaadin-integer-field,
+.library-header-layout vaadin-text-field::part(input-field),
+.library-header-layout vaadin-combo-box,
+.library-header-layout vaadin-date-picker {
+    border-radius: 20px;
+}
+
+
+.library-content-layout > vaadin-button {
+    position: relative;
+    left: 90%;
+    color: white;
+    background: var(--lumo-primary-color);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.library-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.library-popular-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.library-popular-container > span {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    width: 100% !important;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+    font-family: cursive;
+}
+
+.library-app-layout::part(navbar) {
+    display: flex;
+    flex-direction: column;
+}
+
+.library-header-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+.library-header-title > span {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-family: cursive;
+}
+
+.library-header-title > vaadin-button {
+    background:  var(--lumo-base-color);
+    cursor: pointer;
+}
+
+.library-header-title > vaadin-icon {
+    font-size: 30px;
+}
+
+.library-dialog::part(header) {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.library-dialog-single-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.library-dialog-single-layout > vaadin-button {
+    background: var(--lumo-primary-color);
+    color: white;
+    cursor: pointer;
+}
+
+.playlist-no-song-text {
+    color: var(--lumo-contrast-2pct);
+    font-size: 20px;
+    margin-left: 30px;
+}

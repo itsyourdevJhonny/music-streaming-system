@@ -1,0 +1,195 @@
+.playlist-header-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+.playlist-header-title > span {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.playlist-header-title > vaadin-button {
+    background:  var(--lumo-base-color);
+    cursor: pointer;
+}
+
+.playlist-header-title > vaadin-icon {
+    font-size: 30px;
+}
+
+.playlist-header-title > div > vaadin-text-field::part(input-field) {
+    border-radius: 20px;
+    width: 15rem;
+    color: white;
+    border: 1px solid var(--lumo-contrast-10pct);
+}
+
+.playlist-header-title > div > vaadin-text-field > input:placeholder-shown {
+    margin-left: 10px;
+}
+
+.playlist-header-title > div {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    cursor: pointer;
+    color: var(--lumo-error-color);
+}
+
+.no-playlist-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+    gap: 5px;
+    height: 100%;
+}
+
+.playlist-layout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+.playlist-layout:hover {
+    background: var(--lumo-contrast-10pct);
+}
+
+.playlist-layout > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-layout > div > span {
+    font-size: 18px;
+}
+
+.playlist-layout > div > span:nth-child(2) {
+    font-size: 15px;
+    color: var(--lumo-contrast-40pct);
+}
+
+.playlist-layout vaadin-icon {
+    cursor: pointer;
+}
+
+.playlist-parent-layout {
+    padding-top: 10px;
+    background: var(--lumo-shade-60pct);
+    width: 330px !important;
+    height: 100%;
+    color: white;
+    padding: 0;
+    gap: 0;
+}
+
+.playlist-main-layout {
+    display: flex;
+    height: 100%;
+}
+
+.playlist-main-layout > div {
+    display: flex;
+    max-width: 65rem;
+    overflow-y: auto;
+    margin-top: 30px;
+    height: 460px;
+    padding-top: 43px;
+}
+
+.playlist-songs-header-text {
+    position: absolute;
+    top: 80px;
+    color: white;
+    margin-left: 20px;
+    font-size: 30px;
+    gap: 10px;
+    font-family: cursive;
+}
+
+.playlist-songs-header-text > span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.playlist-delete-button {
+    cursor: pointer;
+    background: var(--lumo-error-color);
+    color: white;
+    border-radius: 20px;
+}
+
+.playlist-dialog::part(content) {
+    display: flex;
+    gap: 10px;
+}
+
+.playlist-dialog > vaadin-button {
+    color: white;
+}
+
+.playlist-dialog {
+    height: auto;
+}
+
+.playlist-dialog > vaadin-button:nth-child(1) {
+    background: var(--lumo-error-color);
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.playlist-dialog > vaadin-button:nth-child(2) {
+    background: var(--lumo-primary-color);
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.playlist-dialog div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.playlist-dialog div > span:first-child {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.playlist-edit-dialog > vaadin-button {
+    background: var(--lumo-primary-color);
+    color: white;
+    margin-left: 70px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.playlist-edit-dialog > vaadin-text-field::part(input-field) {
+    border-radius: 20px;
+    width: 250px;;
+}
+
+.playlist-edit-dialog::part(header) {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.playlist-edit-dialog span {
+    width: 100%;
+    text-align: center;
+}

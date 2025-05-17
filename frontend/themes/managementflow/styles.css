@@ -1,0 +1,230 @@
+@import "login-form.css";
+@import "home.css";
+@import "library.css";
+@import "playlist.css";
+@import "register.css";
+@import "forgot-password.css";
+
+@media all and (max-width: 1100px) {
+  .list-view.editing .toolbar,
+  .list-view.editing .contact-grid {
+    display: none;
+  }
+}
+vaadin-icon.edit-icon {
+  cursor: pointer;
+}
+
+vaadin-button.logout > vaadin-icon {
+  color: white;
+  height: 43px;
+  width: 43px;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+vaadin-button.logout {
+  background: transparent;
+  font-size: 20px;
+  margin-right: 80px;
+  font-family: serif;
+  cursor: pointer;
+}
+
+vaadin-button.view-button {
+  margin-top: 8px;
+  font-family: serif;
+  background: blue;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.grade-header {
+  margin-right: 300px;
+  font-size: 30px;
+  font-family: serif;
+  color: white;
+}
+
+vaadin-button.grade-close-button {
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 20px;
+  cursor: pointer;
+  background: red;
+  color: white;
+  border-radius: 10px;
+  font-family: serif;
+}
+
+vaadin-text-field.field::part(input-field) {
+  color: white;
+  border-radius: 10px;
+}
+
+vaadin-text-field.field::part(label){
+  color: white;
+}
+
+vaadin-confirm-dialog-overlay.grades-dialog::part(header){
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+vaadin-grid.contact-grid::part(header-cell){
+  color: white;
+  font-family: serif;
+}
+
+vaadin-grid.contact-grid::part(row){
+  color: white;
+}
+
+vaadin-avatar.image {
+  margin-left: 85px;
+  width: 100px;
+  height: 100px;
+}
+
+vaadin-text-field.filter-field[focused] > [slot="suffix"]{
+  display: none;
+}
+
+.main-header {
+  margin-left: 180px;
+  font-size: 30px;
+  font-family: serif;
+  color: white;
+}
+
+vaadin-text-field.filter-field > input:placeholder-shown {
+  font-family: serif;
+}
+
+vaadin-text-field.filter-field::part(clear-button) {
+  color: white;
+}
+
+vaadin-text-field.filter-field::part(input-field) {
+  color: white;
+  border-radius: 10px;
+}
+
+vaadin-button.addstudent-button {
+  font-family: serif;
+  background: blue;
+  color: white;
+  border-radius: 10px;
+}
+
+.date {
+  font-family: serif;
+  margin-left: 20px;
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+.add-header {
+  font-family: serif;
+  font-size: 30px;
+  color: white;
+  margin-left: 80px;
+}
+
+vaadin-grid.grid::part(row){
+  color: white;
+}
+
+vaadin-dialog-overlay.attendance-dialog::part(header-content){
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+vaadin-dialog-overlay.attendance-dialog::part(title){
+  color: white;
+  margin-left: 30px;
+}
+
+vaadin-button.save-button{
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 160px;
+  cursor: pointer;
+  background: blue;
+  color: white;
+  border-radius: 10px;
+  font-family: serif;
+}
+
+vaadin-button.close-button {
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 20px;
+  cursor: pointer;
+  background: red;
+  color: white;
+  border-radius: 10px;
+  font-family: serif;
+}
+
+vaadin-grid.grid::part(header-cell){
+  color: white;
+  font-family: serif;  
+}
+
+.header {
+  font-family: serif;
+  font-size: 30px;
+  color: white;
+  margin-left: 90px;
+}
+
+vaadin-button.attendance-button {
+  margin-top: 8px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: white;
+  background: blue;
+  margin-left: 110px;
+  font-family: serif;
+}
+
+vaadin-button.add-button {
+  font-family: serif;
+  margin-top: 8px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: white;
+  background: blue;
+  margin-left: 20px;
+}
+
+a[highlight] {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.drawer-icon {
+  margin-right: 20px;
+  color: white;	
+}
+
+.drawer-link {
+  font-family: serif;
+  margin-top: 20px;
+  font-size: 20px;
+  width: 100%;
+}
+
+vaadin-app-layout.nav::part(navbar){
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+body {
+    width: 100% !important;
+}

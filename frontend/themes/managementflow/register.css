@@ -1,0 +1,42 @@
+.register-layout {
+    align-items: center;
+    justify-content: center;
+    background: black;
+    height: 100%;
+}
+
+.register-layout > span {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: cursive;
+}
+
+.register-parent-div > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-layout > vaadin-icon {
+    font-size: 50px;
+}
+
+.register-parent-div > div > vaadin-text-field::part(input-field) {
+    border-radius: 20px;
+    color: white;
+}
+
+.register-parent-div > div > vaadin-button {
+    background: var(--lumo-primary-color);
+    color: white;
+    border-radius: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.register-parent-div > vaadin-button {
+    margin-top: 50px;
+    background: none;
+    border-radius: 20px;
+    cursor: pointer;
+}

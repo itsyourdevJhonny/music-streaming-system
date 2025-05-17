@@ -1,0 +1,136 @@
+.home-header-layout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: cursive;
+}
+
+.home-header-layout > vaadin-button {
+    color: white;
+    border-radius: 20px;
+    background: var(--lumo-base-color);
+    font-family: cursive;
+    cursor: pointer;
+}
+
+.home-header-layout > span {
+    font-size: 2rem;
+    color: white;
+    font-family: cursive;
+}
+
+.home-user-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    color: white;
+}
+
+.home-user-div > vaadin-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.home-user-div > vaadin-button {
+    color: white;
+    background: var(--lumo-error-color);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.home-main-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.home-main-layout > span > vaadin-icon {
+    font-size: 200px;
+}
+
+.home-main-layout > span {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.home-main-layout > span:nth-child(1) {
+    display: flex;
+    font-size: 30px;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 20px;
+    color: white;
+    font-weight: bold;
+    font-family: cursive;
+}
+
+.home-main-layout > div > span {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.home-main-layout > span > div {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    gap: 20px;
+    height: 100%;
+}
+
+.home-main-layout > span > div > div > vaadin-horizontal-layout {
+    font-size: 30px;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.home-main-layout > span > div > div > span {
+    color: white;
+    font-family: cursive;
+}
+
+.home-main-layout > span > div > span {
+    font-size: 18px;
+}
+
+.home-card-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.home-card-container > span {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: cursive;
+    margin-bottom: 15px;
+}
+
+.home-card-container > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-card-container > div > vaadin-button {
+    background: var(--lumo-primary-color);
+    color: white;
+    border-radius: 20px;
+}
+
+.home-card-footer {
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    font-family: cursive;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
