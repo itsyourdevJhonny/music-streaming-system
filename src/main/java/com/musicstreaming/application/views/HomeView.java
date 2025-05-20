@@ -86,19 +86,24 @@ public class HomeView extends AppLayout {
 
             String artist = history.getArtist().replace("by ", "");
 
-            JsonNode trackResult = spotifyService.getTrackByTitleAndArtist(history.getSongTitle(), artist);
+            try {
+                JsonNode trackResult = spotifyService.getTrackByTitleAndArtist(history.getSongTitle(), artist);
 
-            if (trackResult != null) {
-                JsonNode track = trackResult.path("tracks").path("items").get(0);
-                if (track != null) {
-                    String name = track.path("name").asText();
-                    String artistName = track.path("artists").get(0).path("name").asText();
-                    String imageUrl = track.path("album").path("images").get(0).path("url").asText();
-                    String spotifyUrl = track.path("external_urls").path("spotify").asText();
+                if (trackResult != null) {
+                    JsonNode track = trackResult.path("tracks").path("items").get(0);
+                    if (track != null) {
+                        String name = track.path("name").asText();
+                        String artistName = track.path("artists").get(0).path("name").asText();
+                        String imageUrl = track.path("album").path("images").get(0).path("url").asText();
+                        String spotifyUrl = track.path("external_urls").path("spotify").asText();
 
-                    cardContainer.add(createCard(name, "By " + artistName, imageUrl, spotifyUrl));
+                        cardContainer.add(createCard(name, "By " + artistName, imageUrl, spotifyUrl));
+                    }
+                } else {
+                    cardContainer.add(new Span("No recently played yet."));
+                    return cardContainer;
                 }
-            } else {
+            } catch (Exception e) {
                 cardContainer.add(new Span("No recently played yet."));
                 return cardContainer;
             }
@@ -122,16 +127,21 @@ public class HomeView extends AppLayout {
             String artist = history.getArtist().replace("by ", "");
 
             System.out.println(artist);
-            JsonNode trackResult = spotifyService.getTrackByTitleAndArtist(history.getSongTitle(), artist);
+            try {
+                JsonNode trackResult = spotifyService.getTrackByTitleAndArtist(history.getSongTitle(), artist);
 
-            JsonNode track = trackResult.path("tracks").path("items").get(0);
-            if (track != null) {
-                String name = track.path("name").asText();
-                String artistName = track.path("artists").get(0).path("name").asText();
-                String imageUrl = track.path("album").path("images").get(0).path("url").asText();
-                String spotifyUrl = track.path("external_urls").path("spotify").asText();
+                JsonNode track = trackResult.path("tracks").path("items").get(0);
+                if (track != null) {
+                    String name = track.path("name").asText();
+                    String artistName = track.path("artists").get(0).path("name").asText();
+                    String imageUrl = track.path("album").path("images").get(0).path("url").asText();
+                    String spotifyUrl = track.path("external_urls").path("spotify").asText();
 
-                cardContainer.add(createCard(name, "By " + artistName, imageUrl, spotifyUrl));
+                    cardContainer.add(createCard(name, "By " + artistName, imageUrl, spotifyUrl));
+                }
+            } catch (Exception e) {
+                cardContainer.add(new Span("No recently played yet."));
+                return cardContainer;
             }
         }
 
@@ -209,10 +219,6 @@ public class HomeView extends AppLayout {
 
     private Div createFooter() {
         Span contactText = new Span("Contact Us:");
-        SvgIcon facebookIcon = getSvgIcon("facebook");
-        SvgIcon tiktokIcon = getSvgIcon("tiktok");
-        SvgIcon instagramIcon = getSvgIcon("instagram");
-        SvgIcon phoneNumberIcon = getSvgIcon("phone-number");
 
         Anchor facebookLink = new Anchor("https://facebook.com", getSvgIcon("facebook"));
         facebookLink.setTarget("_blank");

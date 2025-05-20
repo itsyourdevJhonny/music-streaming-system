@@ -36,15 +36,22 @@ import org.jetbrains.annotations.Nullable;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * View class for the music library page.
+ * Allows users to browse and filter music content such as tracks, albums, and artists.
+ * Supports search, genre filtering, popularity thresholds, and release date ranges.
+ */
 @Route("library")
 @PageTitle("Library | MSS")
 @PermitAll
 public class MusicLibraryView extends AppLayout {
+
     private final RecommendationService recommendationService;
     private final SecurityService securityService;
     private final UserService userService;
     private final PlaylistService playlistService;
     private final SpotifyService spotifyService = new SpotifyService();
+
     private final ComboBox<String> genreComboBox = new ComboBox<>("Genre");
     private final ComboBox<String> typeComboBox = new ComboBox<>("Type");
     private final TextField searchField = new TextField("Search");
@@ -56,14 +63,28 @@ public class MusicLibraryView extends AppLayout {
     private final Div cardContainer = new Div();
     private int offset = 0;
 
-    public MusicLibraryView(RecommendationService recommendationService, SecurityService securityService, UserService userService, PlaylistService playlistService) {
+    /**
+     * Constructor that initializes the Music Library UI.
+     * Sets up filters, event listeners, layout, and loads initial content.
+     *
+     * @param recommendationService service for music recommendations
+     * @param securityService       service to handle security and authentication
+     * @param userService           service for user data operations
+     * @param playlistService       service for playlist management
+     */
+    public MusicLibraryView(RecommendationService recommendationService,
+                            SecurityService securityService,
+                            UserService userService,
+                            PlaylistService playlistService) {
         this.recommendationService = recommendationService;
         this.securityService = securityService;
         this.userService = userService;
         this.playlistService = playlistService;
+
         addClassName("library-app-layout");
         cardContainer.addClassName("library-card-container");
 
+        // Set up filter controls
         typeComboBox.setItems("track", "album", "artist");
         typeComboBox.setValue("album");
 
@@ -73,31 +94,41 @@ public class MusicLibraryView extends AppLayout {
         genreComboBox.setPlaceholder("Select Genre");
 
         resultGrid.addColumn(item -> item).setHeader("Results");
-
         cardContainer.getStyle().set("display", "flex").set("flex-wrap", "wrap");
 
+        // Load available genres from Spotify
         loadGenres();
 
+        // Add filter event
         genreComboBox.addValueChangeListener(e -> filterByGenre());
 
+        // Load initial music content
         getNewReleases();
 
+        // Header setup
         Span headerTitle = new Span("Music Library");
-
-        Button backButton = new Button("Back", new Icon("vaadin", "arrow-backward"), e -> UI.getCurrent().navigate(HomeView.class));
-
+        Button backButton = new Button("Back", new Icon("vaadin", "arrow-backward"),
+                e -> UI.getCurrent().navigate(HomeView.class));
         HorizontalLayout headerTitleLayout = new HorizontalLayout(backButton, headerTitle, getSvgIcon("logo"));
         headerTitleLayout.addClassName("library-header-title");
 
-        HorizontalLayout headerLayout = new HorizontalLayout(searchField, typeComboBox, popularityField, fromDate, toDate, genreComboBox);
+        // Filter/search layout
+        HorizontalLayout headerLayout = new HorizontalLayout(
+                searchField, typeComboBox, popularityField, fromDate, toDate, genreComboBox);
         headerLayout.addClassName("library-header-layout");
 
+        // Add event handlers
         setEventHandlers();
 
+        // Add header and main content to view
         addToNavbar(headerTitleLayout, headerLayout);
         setContent(createContent());
     }
 
+    /**
+     * Sets event handlers for the UI components related to filtering and searching.
+     * Adds listeners to update the content dynamically as the user changes filter values.
+     */
     private void setEventHandlers() {
         searchField.addValueChangeListener(e -> filterBySearch());
         searchField.setSuffixComponent(new Icon("vaadin", "search"));
@@ -112,6 +143,12 @@ public class MusicLibraryView extends AppLayout {
         genreComboBox.addValueChangeListener(e -> filterByGenre());
     }
 
+    /**
+     * Creates the main content layout of the music library view.
+     * Includes sections for new releases, popular artists, and a "More" button.
+     *
+     * @return Div container holding the main content components.
+     */
     private Div createContent() {
         Span newReleaseText = new Span("New Releases");
         newReleaseText.addClassName("library-new-release-text");
@@ -128,6 +165,10 @@ public class MusicLibraryView extends AppLayout {
         return contentLayout;
     }
 
+    /**
+     * Fetches new album releases from the Spotify API and populates the card container with album cards.
+     * Handles exceptions by showing an error message in the UI.
+     */
     private void getNewReleases() {
         cardContainer.removeAll();
 
@@ -150,6 +191,12 @@ public class MusicLibraryView extends AppLayout {
         }
     }
 
+    /**
+     * Loads a random selection of popular artists and returns a container with their artist cards.
+     * Artist data is retrieved from the Spotify API.
+     *
+     * @return Div container with cards for random popular artists.
+     */
     private Div loadRandomArtists() {
         Div container = new Div();
         container.addClassName("library-popular-container");
@@ -187,6 +234,11 @@ public class MusicLibraryView extends AppLayout {
         return container;
     }
 
+    /**
+     * Loads music genres from Spotify categories API and populates the genreComboBox.
+     * Fills the genreMap with genre names and their corresponding IDs.
+     * Shows an error message in the UI if the API call fails.
+     */
     private void loadGenres() {
         try {
             JsonNode categories = spotifyService.getCategories();
@@ -201,6 +253,10 @@ public class MusicLibraryView extends AppLayout {
         }
     }
 
+    /**
+     * Filters music library results based on the search query and selected type (track, album, artist).
+     * Clears previous results and updates the UI with matching items from Spotify search API.
+     */
     private void filterBySearch() {
         cardContainer.removeAll();
 
@@ -213,7 +269,6 @@ public class MusicLibraryView extends AppLayout {
         }
 
         JsonNode searchResults = spotifyService.search(query, type);
-        List<String> results = new ArrayList<>();
 
         if (searchResults != null) {
             JsonNode items = searchResults.path(type + "s").path("items");
@@ -228,6 +283,11 @@ public class MusicLibraryView extends AppLayout {
         }
     }
 
+    /**
+     * Filters music library results based on the minimum popularity threshold.
+     * Retrieves search results from Spotify and only displays items with popularity
+     * greater than or equal to the specified minimum.
+     */
     private void filterByPopularity() {
         String query = searchField.getValue();
         String type = typeComboBox.getValue();
@@ -242,7 +302,6 @@ public class MusicLibraryView extends AppLayout {
             for (JsonNode item : items) {
                 int popularity = item.has("popularity") ? item.get("popularity").asInt() : 0;
                 if (popularity >= minPopularity) {
-                    //results.add(item.path("name").asText() + " [Popularity: " + popularity + "]");
                     String name = item.path("name").asText();
                     String imageUrl = item.path("images").get(0).path("url").asText();
                     String albumUrl = item.path("external_urls").path("spotify").asText();
@@ -253,6 +312,11 @@ public class MusicLibraryView extends AppLayout {
         }
     }
 
+    /**
+     * Filters search results by release date range.
+     * Shows only items released on or after 'fromDate' and on or before 'toDate'.
+     * Supports filtering tracks by their album release date.
+     */
     private void filterByDate() {
         String query = searchField.getValue();
         String type = typeComboBox.getValue();
@@ -285,6 +349,11 @@ public class MusicLibraryView extends AppLayout {
         }
     }
 
+    /**
+     * Filters music library content by the selected genre.
+     * Clears all other filters, fetches playlists for the genre category,
+     * and updates the card container with genre-specific playlists.
+     */
     private void filterByGenre() {
         searchField.clear();
         typeComboBox.clear();
@@ -310,6 +379,13 @@ public class MusicLibraryView extends AppLayout {
         }
     }
 
+    /**
+     * Parses Spotify release date strings into LocalDate objects.
+     * Handles full date, year-month, and year-only formats by defaulting missing values to the first day/month.
+     *
+     * @param releaseRaw raw release date string from Spotify API
+     * @return parsed LocalDate or null if parsing fails
+     */
     @Nullable
     private static LocalDate getLocalDate(String releaseRaw) {
         if (releaseRaw == null || releaseRaw.isEmpty()) return null;
@@ -325,6 +401,18 @@ public class MusicLibraryView extends AppLayout {
         return null;
     }
 
+    /**
+     * Creates a music card component displaying cover image, title, subtitle,
+     * embedded Spotify player iframe, and an add-to-playlist button.
+     * Also adds a click listener to track user recommendations.
+     *
+     * @param title     the title of the music item (track, album, artist)
+     * @param subtitle  additional info such as artist name
+     * @param imageUrl  cover image URL
+     * @param spotifyId Spotify ID for embedding the player
+     * @param type      item type (e.g. "track", "album", "artist")
+     * @return a Div component representing the music card
+     */
     private Div createCard(String title, String subtitle, String imageUrl, String spotifyId, String type) {
         Image image = new Image(imageUrl, "cover");
         image.setWidth("150px");
@@ -348,12 +436,27 @@ public class MusicLibraryView extends AppLayout {
 
         Div card = new Div(detailsDiv, new Html(iframeHtml), createAddToPlaylist(title, subtitle, imageUrl, spotifyId));
         card.addClassName("library-card");
-        card.getStyle().set("padding", "10px").set("border", "1px solid #ccc").set("border-radius", "8px").set("width", "300px").set("margin", "10px");
+        card.getStyle()
+                .set("padding", "10px")
+                .set("border", "1px solid #ccc")
+                .set("border-radius", "8px")
+                .set("width", "300px")
+                .set("margin", "10px");
         card.addClickListener(e -> recommendationService.add(subtitle, securityService.getAuthenticatedUser().getUsername(), title));
 
         return card;
     }
 
+    /**
+     * Creates an "Add To Playlist" button.
+     * Clicking it opens a dialog allowing users to add the current music item to their playlists.
+     *
+     * @param title      song/album/artist title
+     * @param artist     artist name or subtitle
+     * @param imageUrl   cover image URL
+     * @param spotifyUrl Spotify URL of the item
+     * @return Button component configured with click listener for playlist addition
+     */
     private Button createAddToPlaylist(String title, String artist, String imageUrl, String spotifyUrl) {
         Button addButton = new Button("Add To Playlist", new Icon("vaadin", "plus"));
         addButton.addClickListener(e -> {
@@ -367,7 +470,7 @@ public class MusicLibraryView extends AppLayout {
 
             List<Playlist> playlists = playlistService.getAllPlaylistsByUser(userService.getUserByUsername(username).getId());
 
-            for (Playlist playlist :  playlists) {
+            for (Playlist playlist : playlists) {
                 HorizontalLayout singleLayout = new HorizontalLayout(
                         new Span(playlist.getName()),
                         new Button(new Icon("vaadin", "plus"), event -> {
@@ -395,6 +498,16 @@ public class MusicLibraryView extends AppLayout {
         return addButton;
     }
 
+    /**
+     * Creates a card UI component for displaying an artist.
+     * Includes image, title, subtitle, and a button to open the artist's Spotify page in a new browser tab.
+     *
+     * @param title      artist name
+     * @param subtitle   artist description or label
+     * @param imageUrl   artist image URL
+     * @param spotifyUrl URL to the artist's Spotify page
+     * @return Div component representing the artist card
+     */
     private Div createArtistCard(String title, String subtitle, String imageUrl, String spotifyUrl) {
         Image image = new Image(imageUrl, "cover");
         image.setWidth("150px");
@@ -423,13 +536,25 @@ public class MusicLibraryView extends AppLayout {
         return card;
     }
 
-
+    /**
+     * Extracts the Spotify ID from a full Spotify URL.
+     * Splits the URL by '/' and returns the last segment.
+     *
+     * @param url full Spotify URL
+     * @return Spotify ID string or empty if input is null/empty
+     */
     private String extractSpotifyId(String url) {
         if (url == null || url.isEmpty()) return "";
         String[] parts = url.split("/");
         return parts[parts.length - 1];
     }
 
+    /**
+     * Loads an SVG icon by its name from the application's resources.
+     *
+     * @param iconName the name of the SVG icon file (without extension)
+     * @return SvgIcon loaded from resource stream
+     */
     private SvgIcon getSvgIcon(String iconName) {
         return new SvgIcon(new StreamResource(iconName + ".svg", () -> getClass().getResourceAsStream("/META-INF/resources/icons/" + iconName + ".svg")));
     }
