@@ -17,7 +17,6 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.SvgIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -26,6 +25,11 @@ import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 
+/**
+ * Main application view shown at the root route ("/").
+ * Displays music streaming homepage including recently played tracks,
+ * recommendations, featured playlists, and footer with contact info.
+ */
 @Route("")
 @PageTitle("Home | MSS")
 @PermitAll
@@ -36,6 +40,14 @@ public class HomeView extends AppLayout {
     private final SecurityService securityService;
     private final UserService userService;
 
+    /**
+     * Creates the HomeView with required service dependencies.
+     *
+     * @param spotifyService       Spotify API integration service
+     * @param recommendationService Service to get personalized recommendations
+     * @param securityService       Security service to get authenticated user info
+     * @param userService           Service to manage user data
+     */
     public HomeView(SpotifyService spotifyService, RecommendationService recommendationService, SecurityService securityService, UserService userService) {
         this.spotifyService = spotifyService;
         this.recommendationService = recommendationService;
@@ -47,6 +59,10 @@ public class HomeView extends AppLayout {
         addToNavbar(createHeader());
     }
 
+    /**
+     * Creates and sets the main content layout including title,
+     * recently played, recommendations, featured playlists, and footer.
+     */
     private void createContent() {
         Div mainLayout = new Div();
         mainLayout.addClassName("home-main-layout");
@@ -66,12 +82,22 @@ public class HomeView extends AppLayout {
         setContent(mainLayout);
     }
 
+    /**
+     * Creates footer layout for cards with copyright notice and logo.
+     *
+     * @return HorizontalLayout containing footer info
+     */
     private HorizontalLayout createCardFooter() {
         HorizontalLayout footerLayout = new HorizontalLayout(new Span("All rights reserved @ 2025"), getSvgIcon("logo"));
         footerLayout.addClassName("home-card-footer");
         return footerLayout;
     }
 
+    /**
+     * Creates the "Recently Played" section cards for the authenticated user.
+     *
+     * @return Div container with recently played track cards
+     */
     private Div createRecentlyPlayed() {
         String username = securityService.getAuthenticatedUser().getUsername();
 
@@ -82,8 +108,6 @@ public class HomeView extends AppLayout {
         List<ListeningHistory> histories = recommendationService.getSongsByUsername(username);
 
         for (ListeningHistory history : histories) {
-            System.out.println(history.getArtist());
-
             String artist = history.getArtist().replace("by ", "");
 
             try {
@@ -112,6 +136,11 @@ public class HomeView extends AppLayout {
         return cardContainer;
     }
 
+    /**
+     * Creates the "Recommendation" section with personalized and new releases.
+     *
+     * @return Div container with recommended track cards
+     */
     private Div createRecommendation() {
         String username = securityService.getAuthenticatedUser().getUsername();
 
@@ -122,11 +151,8 @@ public class HomeView extends AppLayout {
         List<ListeningHistory> histories = recommendationService.getSongsByUsername(username);
 
         for (ListeningHistory history : histories) {
-            System.out.println(history.getArtist());
-
             String artist = history.getArtist().replace("by ", "");
 
-            System.out.println(artist);
             try {
                 JsonNode trackResult = spotifyService.getTrackByTitleAndArtist(history.getSongTitle(), artist);
 
@@ -163,6 +189,11 @@ public class HomeView extends AppLayout {
         return cardContainer;
     }
 
+    /**
+     * Creates the "Featured Playlists" section with playlist cards.
+     *
+     * @return Div container with featured playlist cards
+     */
     private Div createFeaturedPlaylists() {
         Div cardContainer = new Div(new Span("Featured Playlists"));
         cardContainer.addClassName("home-card-container");
@@ -185,6 +216,15 @@ public class HomeView extends AppLayout {
         return cardContainer;
     }
 
+    /**
+     * Creates an individual card with image, title, subtitle, and open button.
+     *
+     * @param title       Card title text
+     * @param subtitle    Card subtitle text
+     * @param imageUrl    URL of the card image
+     * @param spotifyUrl  Spotify URL to open when clicking the button
+     * @return Div representing the card component
+     */
     private Div createCard(String title, String subtitle, String imageUrl, String spotifyUrl) {
         Image image = new Image(imageUrl, "cover");
         image.setWidth("150px");
@@ -216,7 +256,11 @@ public class HomeView extends AppLayout {
         return card;
     }
 
-
+    /**
+     * Creates the footer layout with contact info and social media icons.
+     *
+     * @return Div containing footer with social links
+     */
     private Div createFooter() {
         Span contactText = new Span("Contact Us:");
 
@@ -224,13 +268,13 @@ public class HomeView extends AppLayout {
         facebookLink.setTarget("_blank");
 
         Anchor tiktokLink = new Anchor("https://tiktok.com", getSvgIcon("tiktok"));
-        facebookLink.setTarget("_blank");
+        tiktokLink.setTarget("_blank");
 
         Anchor instagramLink = new Anchor("https://instagram.com", getSvgIcon("instagram"));
-        facebookLink.setTarget("_blank");
+        instagramLink.setTarget("_blank");
 
         Anchor phoneNumberLink = new Anchor("https://facebook.com", getSvgIcon("phone-number"));
-        facebookLink.setTarget("_blank");
+        phoneNumberLink.setTarget("_blank");
 
         HorizontalLayout iconsLayout = new HorizontalLayout(facebookLink, tiktokLink, instagramLink, phoneNumberLink);
 
@@ -240,6 +284,11 @@ public class HomeView extends AppLayout {
         return footerLayout;
     }
 
+    /**
+     * Returns a description text for the music streaming system.
+     *
+     * @return Description string
+     */
     private String description() {
         return """
                 The music streaming system is to provide users with an easy-to-use platform where they can listen to a vast array of music content.\s
@@ -250,6 +299,11 @@ public class HomeView extends AppLayout {
                \s""";
     }
 
+    /**
+     * Creates the header layout with navigation buttons and user info.
+     *
+     * @return HorizontalLayout containing header components
+     */
     private HorizontalLayout createHeader() {
         Span headerText = new Span("Music Streaming System");
         Button libraryButton = new Button("Library", getSvgIcon("library"), e -> UI.getCurrent().navigate(MusicLibraryView.class));
@@ -268,6 +322,12 @@ public class HomeView extends AppLayout {
         return headerLayout;
     }
 
+    /**
+     * Loads an SVG icon by its name from resources.
+     *
+     * @param iconName The SVG icon file name without extension
+     * @return SvgIcon loaded from resource
+     */
     private SvgIcon getSvgIcon(String iconName) {
         return new SvgIcon(new StreamResource(iconName + ".svg", () -> getClass().getResourceAsStream("/META-INF/resources/icons/" + iconName + ".svg")));
     }
